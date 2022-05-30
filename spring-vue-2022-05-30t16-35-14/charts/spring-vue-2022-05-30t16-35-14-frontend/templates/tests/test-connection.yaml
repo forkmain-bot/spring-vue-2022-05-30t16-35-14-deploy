@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "spring-vue-2022-05-30t16-35-14-frontend.fullname" . }}-test-connection"
+  labels:
+    {{- include "spring-vue-2022-05-30t16-35-14-frontend.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "spring-vue-2022-05-30t16-35-14-frontend.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
